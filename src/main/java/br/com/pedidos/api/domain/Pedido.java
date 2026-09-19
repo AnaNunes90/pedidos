@@ -6,17 +6,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public record Pedido(UUID id, StatusPedido status, List<ItemPedido> itens) {
+public record Pedido(UUID id, String clienteId, StatusPedido status, List<ItemPedido> itens) {
 
     public Pedido {
         Objects.requireNonNull(id, "id não pode ser nulo");
+        Objects.requireNonNull(clienteId, "clienteId não pode ser nulo");
         Objects.requireNonNull(status, "status não pode ser nulo");
         Objects.requireNonNull(itens, "itens não pode ser nulo");
         itens = List.copyOf(itens);
     }
 
-    public static Pedido novo() {
-        return new Pedido(UUID.randomUUID(), StatusPedido.ABERTO, List.of());
+    public static Pedido novo(String clienteId) {
+        return new Pedido(UUID.randomUUID(), clienteId, StatusPedido.ABERTO, List.of());
     }
 
     public Pedido adicionarItem(ItemPedido item) {
@@ -26,21 +27,21 @@ public record Pedido(UUID id, StatusPedido status, List<ItemPedido> itens) {
         }
         List<ItemPedido> novosItens = new ArrayList<>(itens);
         novosItens.add(item);
-        return new Pedido(id, status, novosItens);
+        return new Pedido(id, clienteId, status, novosItens);
     }
 
     public Pedido pagar() {
         if (status != StatusPedido.ABERTO) {
             throw new IllegalStateException("pedido precisa estar ABERTO para ser pago");
         }
-        return new Pedido(id, StatusPedido.PAGO, itens);
+        return new Pedido(id, clienteId, StatusPedido.PAGO, itens);
     }
 
     public Pedido cancelar() {
         if (status != StatusPedido.ABERTO) {
             throw new IllegalStateException("pedido precisa estar ABERTO para ser cancelado");
         }
-        return new Pedido(id, StatusPedido.CANCELADO, itens);
+        return new Pedido(id, clienteId, StatusPedido.CANCELADO, itens);
     }
 
     public BigDecimal total() {
