@@ -19,7 +19,7 @@ public class CriarPedidoService implements CriarPedido {
     @Override
     public Pedido criar(String clienteId, List<ItemPedido> itens) {
         if (itens == null || itens.isEmpty()) {
-            throw new IllegalArgumentException("itens não pode ser vazio");
+            throw new PedidoSemItensException("itens não pode ser vazio");
         }
 
         Pedido pedido = Pedido.novo(clienteId);

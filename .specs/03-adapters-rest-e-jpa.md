@@ -8,7 +8,7 @@ Este checkpoint (4) prova, de ponta a ponta, que o sistema funciona com três ev
 
 1. **Banco disponível** — já comprovado no checkpoint anterior.
 2. **Persistência pelo adapter** (JPA) — objetivo desta etapa, **checkpoint 4B**.
-3. **HTTP** (endpoint REST) — **checkpoint 4C**, fora do escopo desta spec. Nenhum Controller é criado aqui.
+3. **HTTP** (endpoint REST) — **checkpoint 4C**, contrato detalhado na seção própria abaixo.
 
 ## Tarefa (escopo do checkpoint 4B)
 

@@ -38,7 +38,7 @@ class CriarPedidoServiceTest {
         PedidosEmMemoria pedidos = new PedidosEmMemoria();
         CriarPedidoService service = new CriarPedidoService(pedidos);
 
-        assertThrows(IllegalArgumentException.class, () -> service.criar("c-1", List.of()));
+        assertThrows(PedidoSemItensException.class, () -> service.criar("c-1", List.of()));
         assertTrue(pedidos.armazenados.isEmpty());
     }
 
@@ -47,7 +47,7 @@ class CriarPedidoServiceTest {
         PedidosEmMemoria pedidos = new PedidosEmMemoria();
         CriarPedidoService service = new CriarPedidoService(pedidos);
 
-        assertThrows(IllegalArgumentException.class, () -> service.criar("c-1", null));
+        assertThrows(PedidoSemItensException.class, () -> service.criar("c-1", null));
         assertTrue(pedidos.armazenados.isEmpty());
     }
 

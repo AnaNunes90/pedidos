@@ -9,10 +9,10 @@ public record ItemPedido(String codigoProduto, int quantidade, BigDecimal precoU
         Objects.requireNonNull(codigoProduto, "codigoProduto não pode ser nulo");
         Objects.requireNonNull(precoUnitario, "precoUnitario não pode ser nulo");
         if (quantidade <= 0) {
-            throw new IllegalArgumentException("quantidade deve ser positiva");
+            throw new ItemInvalidoException("quantidade deve ser positiva");
         }
         if (precoUnitario.signum() <= 0) {
-            throw new IllegalArgumentException("precoUnitario deve ser positivo");
+            throw new ItemInvalidoException("precoUnitario deve ser positivo");
         }
     }
 
