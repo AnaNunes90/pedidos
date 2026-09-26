@@ -1,26 +1,31 @@
 package br.com.pedidos.api.adapter.in.rest;
 
+import br.com.pedidos.api.application.port.in.AdicionarItem;
 import br.com.pedidos.api.application.port.in.CriarPedido;
 import br.com.pedidos.api.domain.ItemPedido;
 import br.com.pedidos.api.domain.Pedido;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoController {
 
     private final CriarPedido criarPedido;
+    private final AdicionarItem adicionarItem;
 
-    public PedidoController(CriarPedido criarPedido) {
+    public PedidoController(CriarPedido criarPedido, AdicionarItem adicionarItem) {
         this.criarPedido = criarPedido;
+        this.adicionarItem = adicionarItem;
     }
 
     @PostMapping
@@ -32,5 +37,14 @@ public class PedidoController {
         Pedido pedido = criarPedido.criar(request.clienteId(), itens);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(PedidoResponse.de(pedido));
+    }
+
+    @PostMapping("/{id}/itens")
+    public ResponseEntity<PedidoResponse> adicionarItem(@PathVariable UUID id, @Valid @RequestBody ItemRequest request) {
+        ItemPedido item = new ItemPedido(request.codigoProduto(), request.quantidade(), request.precoUnitario());
+
+        Pedido pedido = adicionarItem.adicionarItem(id, item);
+
+        return ResponseEntity.ok(PedidoResponse.de(pedido));
     }
 }

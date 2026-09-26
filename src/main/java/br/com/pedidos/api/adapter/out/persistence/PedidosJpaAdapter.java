@@ -25,6 +25,7 @@ public class PedidosJpaAdapter implements Pedidos {
         return PedidoMapper.paraDominio(salva);
     }
 
+    @Override
     @Transactional
     public Optional<Pedido> buscarPorId(UUID id) {
         return repository.findById(id).map(PedidoMapper::paraDominio);

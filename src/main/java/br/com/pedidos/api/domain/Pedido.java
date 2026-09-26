@@ -23,7 +23,7 @@ public record Pedido(UUID id, String clienteId, StatusPedido status, List<ItemPe
     public Pedido adicionarItem(ItemPedido item) {
         Objects.requireNonNull(item, "item não pode ser nulo");
         if (status != StatusPedido.ABERTO) {
-            throw new IllegalStateException("pedido precisa estar ABERTO para adicionar item");
+            throw new PedidoFechadoException("pedido precisa estar ABERTO para adicionar item");
         }
         List<ItemPedido> novosItens = new ArrayList<>(itens);
         novosItens.add(item);

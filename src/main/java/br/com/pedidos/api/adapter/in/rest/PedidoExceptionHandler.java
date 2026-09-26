@@ -1,7 +1,9 @@
 package br.com.pedidos.api.adapter.in.rest;
 
+import br.com.pedidos.api.application.PedidoNaoEncontradoException;
 import br.com.pedidos.api.application.PedidoSemItensException;
 import br.com.pedidos.api.domain.ItemInvalidoException;
+import br.com.pedidos.api.domain.PedidoFechadoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -18,6 +20,18 @@ public class PedidoExceptionHandler {
     @ExceptionHandler({ItemInvalidoException.class, PedidoSemItensException.class})
     public ResponseEntity<Map<String, String>> tratarRegraDeNegocio(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(Map.of("mensagem", ex.getMessage()));
+    }
+
+    @ExceptionHandler(PedidoNaoEncontradoException.class)
+    public ResponseEntity<Map<String, String>> tratarPedidoNaoEncontrado(PedidoNaoEncontradoException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("mensagem", ex.getMessage()));
+    }
+
+    @ExceptionHandler(PedidoFechadoException.class)
+    public ResponseEntity<Map<String, String>> tratarPedidoFechado(PedidoFechadoException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(Map.of("mensagem", ex.getMessage()));
     }
 

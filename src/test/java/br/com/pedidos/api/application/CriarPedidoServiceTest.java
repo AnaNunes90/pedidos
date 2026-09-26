@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,6 +31,11 @@ class CriarPedidoServiceTest {
         public Pedido salvar(Pedido pedido) {
             armazenados.put(pedido.id(), pedido);
             return pedido;
+        }
+
+        @Override
+        public Optional<Pedido> buscarPorId(UUID id) {
+            return Optional.ofNullable(armazenados.get(id));
         }
     }
 

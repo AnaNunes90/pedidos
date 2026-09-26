@@ -61,14 +61,14 @@ class PedidoTest {
     @Test
     void naoAceitaItemEmPedidoPago() {
         Pedido pago = Pedido.novo("c-1").adicionarItem(CAFE_500).pagar();
-        assertThrows(IllegalStateException.class, () -> pago.adicionarItem(CAFE_500));
+        assertThrows(PedidoFechadoException.class, () -> pago.adicionarItem(CAFE_500));
         assertEquals(1, pago.itens().size());
     }
 
     @Test
     void naoAceitaItemEmPedidoCancelado() {
         Pedido cancelado = Pedido.novo("c-1").adicionarItem(CAFE_500).cancelar();
-        assertThrows(IllegalStateException.class, () -> cancelado.adicionarItem(CAFE_500));
+        assertThrows(PedidoFechadoException.class, () -> cancelado.adicionarItem(CAFE_500));
         assertEquals(1, cancelado.itens().size());
     }
 
